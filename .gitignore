@@ -1,0 +1,31 @@
+# local directories
+
+*.pyc
+*/.ipynb_checkpoints/*
+.ipynb_checkpoints/*
+*/*/.ipynb_checkpoints/*
+__pycache__/
+*.py[cod]
+*$py.class
+/data/
+/input/
+
+# Distribution / packaging
+.Python
+.idea/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
