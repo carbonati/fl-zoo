@@ -7,8 +7,11 @@
 __pycache__/
 *.py[cod]
 *$py.class
-/data/
+# /data/
 /input/
+data/*/data/*
+*/FedProx/*
+
 
 # Distribution / packaging
 .Python
