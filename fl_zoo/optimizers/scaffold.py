@@ -1,5 +1,6 @@
-import torch
 from copy import deepcopy
+import torch
+from torch.optim.optimizer import Optimizer
 from fed_zoo.servers.base import BaseFederater
 
 
@@ -66,6 +67,7 @@ class SCAFFOLD(BaseFederater):
 
     https://arxiv.org/pdf/1910.06378.pdf
     """
+
     def __init__(self,
                  model,
                  clients,

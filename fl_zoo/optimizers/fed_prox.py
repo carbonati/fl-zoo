@@ -1,3 +1,4 @@
+import torch
 from torch.optim.optimizer import Optimizer
 from fed_zoo.optimizers.base import BaseFederater
 
@@ -73,6 +74,7 @@ class FedProx(BaseFederater):
 
     https://arxiv.org/pdf/1812.06127.pdf
     """
+
     def __init__(self,
                  model,
                  clients,
@@ -86,15 +88,15 @@ class FedProx(BaseFederater):
                  seed=None,
                  writer=None):
         super(FedProx, self).__init__(model,
-                         			  clients,
-                         			  client_optimizer_cls,
-                         			  client_optimizer_params,
-                         			  server_optimizer=server_optimizer,
-                         			  server_scheduler=server_scheduler,
-                         			  client_scheduler_cls=client_scheduler_cls,
-                         			  client_scheduler_params=client_scheduler_params,
-                         			  seed=seed,
-                         			  writer=writer)
+                                      clients,
+                                      client_optimizer_cls,
+                                      client_optimizer_params,
+                                      server_optimizer=server_optimizer,
+                                      server_scheduler=server_scheduler,
+                                      client_scheduler_cls=client_scheduler_cls,
+                                      client_scheduler_params=client_scheduler_params,
+                                      seed=seed,
+                                      writer=writer)
         self.mu = mu
 
     def get_client_optimizer(self, client):
@@ -113,4 +115,3 @@ class FedProx(BaseFederater):
                         p_server.grad.data.add_(p_server.data - p_client.data, alpha=self.client_weights[k])
 
         self.server_optimizer.step()
-

@@ -1,4 +1,5 @@
 import torch.nn as nn
+import torch.nn.functional as F
 
 
 class CNN(nn.Module):
@@ -12,6 +13,7 @@ class CNN(nn.Module):
     num_classes : int (default=10)
         Number of class labels.
     """
+
     def __init__(self, in_features=1, num_classes=10):
         super(CNN, self).__init__()
         self._in_features = in_features
@@ -48,6 +50,7 @@ class MLP(nn.Module):
     num_classes : int (default=10)
         Number of class labels.
     """
+
     def __init__(self, in_features=784, hidden_dim=200, num_classes=10):
         super(MLP, self).__init__()
         self._in_features = in_features
@@ -67,6 +70,7 @@ class MLP(nn.Module):
 
 class LogisticRegression(nn.Module):
     """Multinomial Logistic Regression"""
+
     def __init__(self, in_features, num_classes):
         super(LogisticRegression, self).__init__()
         self._in_features = in_features

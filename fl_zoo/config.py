@@ -1,4 +1,4 @@
-from torchvision import datasets, transforms
+from torchvision import transforms
 
 
 DATASET_TO_TRANSFORM = {
@@ -100,7 +100,7 @@ EXPERIMENT_SETTINGS = {
                 'num_rounds': 100,
                 'num_epochs': 20,
                 'C': 0.1,
-#                 'straggler_rate': 0.5,
+                #                 'straggler_rate': 0.5,
             }
         },
         'mnist': {
@@ -125,7 +125,7 @@ EXPERIMENT_SETTINGS = {
             'fit': {
                 'num_rounds': 100,
                 'num_epochs': 20,
-#                 'straggler_rate': 0.5,
+                #                 'straggler_rate': 0.5,
             }
         }
     },

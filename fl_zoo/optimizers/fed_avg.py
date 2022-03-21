@@ -6,6 +6,7 @@ class FedAvg(BaseFederater):
 
     https://arxiv.org/pdf/1602.05629.pdf
     """
+
     def aggregate(self):
         global_state = {}
         for k, (client_id, client) in enumerate(self.clients.items()):

@@ -1,5 +1,6 @@
 import torch
 from torch.utils.data import DataLoader
+from fl_zoo.client import Client
 
 
 def get_client_data(train_data,
