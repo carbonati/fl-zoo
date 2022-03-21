@@ -26,16 +26,13 @@ class FedOpt(BaseFederater):
                                      writer=writer)
 
     def aggregate(self):
-        """
-
-        """
         self.server_optimizer.zero_grad()
         # iterate through each client
         for k, client in enumerate(self.clients.values()):
             for p_server, p_client in zip(self.model.parameters(), client.model.parameters()):
                 if p_server.requires_grad:
                     if k == 0:
-                        p_server.grad = client_weights[k] * (p_server.data - p_client.data)
+                        p_server.grad = self.client_weights[k] * (p_server.data - p_client.data)
                     else:
                         p_server.grad.add_(p_server.data - p_client.data, alpha=self.client_weights[k])
 

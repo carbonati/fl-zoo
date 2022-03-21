@@ -1,3 +1,4 @@
+import torch
 from torch.optim.optimizer import Optimizer
 from fed_zoo.optimizers.base import BaseFederater
 
@@ -19,6 +20,7 @@ class FedNovaSolver(Optimizer):
         >>> loss_fn(model(input), target).backward()
         >>> client_optimizer.step()
     """
+
     def __init__(self,
                  optimizer,
                  mu=0):
@@ -86,11 +88,11 @@ class FedNovaSolver(Optimizer):
 
                 if 'cgrad' not in state:
                     state['cgrad'] = torch.clone(p.grad.data).detach()
-                    state['cgrad'].mul_(group['lr']) # do we need the lr ?
-                    state['cgrad'].mul_(a) # G * a
+                    state['cgrad'].mul_(group['lr'])  # do we need the lr ?
+                    state['cgrad'].mul_(a)  # G * a
                 else:
                     state['cgrad'].add_(p.grad.data, alpha=group['lr'])
-                    state['cgrad'].mul_(a) # G * a
+                    state['cgrad'].mul_(a)  # G * a
 
         return loss
 
@@ -100,6 +102,7 @@ class FedNova(BaseFederater):
 
     https://arxiv.org/pdf/2007.07481.pdf
     """
+
     def __init__(self,
                  model,
                  clients,
@@ -131,8 +134,6 @@ class FedNova(BaseFederater):
         return client_optimizer
 
     def aggregate(self):
-        """ """
-
         self.server_optimizer.zero_grad()
         # iterate through each client and set gradients
         for k, client in enumerate(self.clients.values()):

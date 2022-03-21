@@ -129,7 +129,7 @@ class FedDane(BaseFederater):
                                         num_epochs=num_epochs,
                                         straggler_rate=straggler_rate)
 
-            if eval_every_n is not None and t % eval_every_n == 0:# and val_dl is not None:
+            if eval_every_n is not None and t % eval_every_n == 0:  # and val_dl is not None:
                 template_str = f'round {self.global_round}'
                 val_metrics = self.validate(val_dl, criterion)
                 for metric, value in train_metrics.items():

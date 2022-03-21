@@ -1,7 +1,7 @@
-import numpy as np
 import time
 from copy import deepcopy
 from collections import defaultdict
+import numpy as np
 from torch.utils.tensorboard.writer import SummaryWriter
 
 
@@ -24,6 +24,7 @@ class BaseFederater:
     num_workers : int (default=0)
     device : str (default='cpu')
     """
+
     def __init__(self,
                  model,
                  clients,
@@ -47,7 +48,7 @@ class BaseFederater:
 
         self.client_ids = list(self.clients.keys())
         self.num_clients = len(self.clients)
-        self.num_samples = sum([len(c) for c in self.clients.values()]) # n
+        self.num_samples = sum([len(c) for c in self.clients.values()])  # n
         self.client_weights = [len(c) / self.num_samples for c in self.clients.values()]
 
         self.device = next(self.model.parameters()).device
@@ -113,7 +114,7 @@ class BaseFederater:
             elapsed_time = time.time() - start_time
             self.writer.add_scalar(f'clients/{k}/elapsed_time', elapsed_time, self.global_round)
             for metric, values in client_metrics_dict.items():
-                for i, value in enumerate(values):
+                for value in values:
                     self.writer.add_scalar(f'client/{k}/round_{self.global_round}/{metric}',
                                            value,
                                            self.global_round)
@@ -226,7 +227,7 @@ class BaseFederater:
     def get_gradients(self, client_ids, criterion):
         self.send_model(client_ids)
         grads = []
-        for k, client_id in enumerate(client_ids):
+        for client_id in client_ids:
             client = self.clients[client_id]
             client_grads = client.get_gradients(criterion)
             grads.append(client_grads)

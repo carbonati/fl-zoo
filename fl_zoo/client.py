@@ -1,5 +1,6 @@
 import numpy as np
 import torch
+from copy import deepcopy
 from fl_zoo.utils import common as utils
 
 
@@ -17,6 +18,7 @@ class Client:
     device : str (default='cpu')
         Device to perform training and validation
     """
+
     def __init__(self, client_id, train_loader, eval_loader=None, device='cpu'):
         self.client_id = client_id
         self.train_loader = train_loader
@@ -104,10 +106,10 @@ class Client:
             'loss': total_loss / len(self.train_loader),
             'accuracy': total_correct / len(self)
         }
-         if self.eval_loader is not None:
-             val_metrics = self.validate(criterion)
-             for k, v in val_metrics:
-                 metrics[f'val_{k}'] = v
+        if self.eval_loader is not None:
+            val_metrics = self.validate(criterion)
+            for k, v in val_metrics:
+                metrics[f'val_{k}'] = v
 
         # move model back to cpu
         self.model.to('cpu')
@@ -190,7 +192,7 @@ class SCAFFOLDClient(Client):
         # (4) updates to the local control variate
         if self.option == 'I':
             # gradients of global model w.r.t local data
-            grads = get_gradients(model_server, self.dataset, criterion, device=self.device)
+            grads = utils.get_gradients(model_server, self.dataset, criterion, device=self.device)
             for d_p, ci_new in zip(grads, self.control_new):
                 ci_new.data = d_p.data
         elif self.option == 'II':
@@ -199,7 +201,7 @@ class SCAFFOLDClient(Client):
                 d_p.data = p_client.data.detach() - p_server.data.detach()
 
             lr = self.optimizer.param_groups[0]['lr']
-            for ci, ci_new, c, d_p in zip(self.control, self.control_new, control_server, grads):
+            for ci, ci_new, c, d_p in zip(self.control, self.control_new, self.control_server, grads):
                 ci_new.data = ci - c + 1 / (self.local_steps * lr) * d_p.data
 
         # store the control correction used in (5) and update the local control variate

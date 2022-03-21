@@ -1,8 +1,10 @@
 import datetime
+import json
 import os
 import random
 import numpy as np
 import torch
+from torch.utils.data import DataLoader
 
 
 def set_state(seed=42069):
@@ -40,7 +42,7 @@ def create_experiment_name(method, dataset, params=None):
         if params['fit'].get('num_epochs'):
             experiment_name += f"_E={params['fit']['num_epochs']}"
     if params.get('server_optimizer'):
-            experiment_name += f"_SOPT={params['server_optimizer']}"
+        experiment_name += f"_SOPT={params['server_optimizer']}"
     if params.get('client_optimizer'):
         experiment_name += f"_COPT={params['client_optimizer']}"
 
